@@ -2,6 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask import render_template
 from flask import request
+from flask import redirect
 import os
 
 app = Flask(__name__)
@@ -65,7 +66,32 @@ def cadastrar_produtos():  # put application's code here
 
 @app.route("/editar_produto/<int:id>", methods=['GET', 'POST'])
 def editar_produto(id):
-    return 'teste'
+    if request.method == 'POST':
+        produto_editado = request.form
+        imagem = request.files['imagem']
+        produto = db.session.execute(db.select(Product).filter(Product.id == id)).scalar()
+
+        produto.nome = produto_editado['nome']
+        produto.descricao = produto_editado['descricao']
+        produto.ingredientes = produto_editado['ingredientes']
+        produto.origem = produto_editado['origem']
+        if imagem.filename:
+            produto.imagem = imagem.filename
+        db.session.commit()
+        return redirect("/listar_produtos")
+    else:
+        produto_editado = db.session.execute(db.select(Product).filter(Product.id == id)).scalar()
+        return render_template('editar.html', produto = produto_editado)
+
+@app.route("/deletar_produto/<int:id>")
+def deletar_produto(id):
+    produto_deletado = db.session.execute(db.select(Product).filter(Product.id == id)).scalar()
+    db.session.delete(produto_deletado)
+    db.session.commit()
+    return redirect("/listar_produtos")
+
+
+
 
 
 if __name__ == '__main__':

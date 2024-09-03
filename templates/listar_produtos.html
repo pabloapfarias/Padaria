@@ -32,6 +32,7 @@
                         }}</h6>
 
                     <a href="{{ url_for('editar_produto', id=produto.id) }}" class="btn btn-primary">Editar</a>
+                    <a href="{{ url_for('deletar_produto', id=produto.id) }}" onclick="return confirm('Deseja realmente excluir este produto?')" class="btn btn-danger">Excluir</a>
                 </div>
             </div>
         </div>
