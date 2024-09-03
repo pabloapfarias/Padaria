@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from flask import render_templater
+from flask import render_template
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///padaria.db'
@@ -28,7 +28,7 @@ class Product(db.Model):
 
 @app.route('/')
 def hello_world():  # put application's code here
-    return render_templater('index.html')
+    return render_template('index.html')
 
 
 if __name__ == '__main__':
