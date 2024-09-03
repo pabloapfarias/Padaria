@@ -12,7 +12,8 @@
             <h1>Cadastro de Produtos</h1>
             <hr>
         </div>
-        <form action="{{ url_for('cadastrar_produtos') }}" method="post" class="form-control" enctype="multipart/form-data" >
+        <form action="{{ url_for('cadastrar_produtos') }}" method="post" class="form-control"
+              enctype="multipart/form-data">
             <div class="mb-3">
                 <label for="nome" class="form-label">Nome do Produto</label>
                 <input type="text" class="form-control" id="nome" name="nome" required>
@@ -23,19 +24,36 @@
             </div>
             <div class="mb-3">
                 <label for="ingredientes" class="form-label">Ingredientes</label>
-                <input type="text" class="form-control" id="ingredientes" name="ingredientes" >
+                <input type="text" class="form-control" id="ingredientes" name="ingredientes">
             </div>
             <div class="mb-3">
                 <label for="origem" class="form-label">Origem</label>
-                <input type="text" class="form-control" id="origem" name="origem" >
+                <input type="text" class="form-control" id="origem" name="origem">
             </div>
             <div class="mb-3">
                 <label for="imagem" class="form-label">Imagem</label>
-                <input type="file" class="form-control" id="imagem" name="imagem" >
+                <input type="file" class="form-control" id="imagem" name="imagem">
             </div>
             <button type="submit" class="btn btn-primary">
                 Cadastrar
             </button>
         </form>
     </div>
+    <br>
+    <div class="container">
+    {% if status %}
+        {% if status['type']== 'sucesso' %}
+            <div class="alert alert-success d-flex justify-content-center" role="alert">
+                {{ status['mensagem'] }}
+            </div>
+
+        {% else %}
+            <div class="alert alert-danger d-flex justify-content-center" role="alert">
+                {{ status['mensagem'] }}
+            </div>
+
+        {% endif %}
+    {% endif %}
+    </div>
+
 {% endblock %}

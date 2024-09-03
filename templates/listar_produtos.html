@@ -30,7 +30,8 @@
                     <p class="card-text">{{ produto.descricao }}</p>
                     <h6 class="card-subtitle mb-2 text-body-secondary"><b>Ingredientes: <br></b>{{ produto.ingredientes
                         }}</h6>
-                    <a href="#" class="btn btn-primary">Editar</a>
+
+                    <a href="{{ url_for('editar_produto', id=produto.id) }}" class="btn btn-primary">Editar</a>
                 </div>
             </div>
         </div>

@@ -47,15 +47,26 @@ def listar_produtos():
 @app.route('/cadastrar_produtos', methods=['GET', 'POST'])
 def cadastrar_produtos():  # put application's code here
     if request.method == 'POST':
+        status={'type':'sucesso','mensagem':'Produto Cadastrado com Sucesso'}
         dados = request.form
         imagem = request.files['imagem']
-        produto = Product(dados['nome'], dados['descricao'], dados['ingredientes'], dados['origem'], imagem.filename)
-        imagem.save(os.path.join('static/imagens', imagem.filename))
-        db.session.add(produto)
-        db.session.commit()
-        return render_template('cadastrar.html')
+        try:
+            produto = Product(dados['nome'], dados['descricao'], dados['ingredientes'], dados['origem'],
+                              imagem.filename)
+            imagem.save(os.path.join('static/imagens', imagem.filename))
+            db.session.add(produto)
+            db.session.commit()
+            return render_template('cadastrar.html', status=status)
+        except:
+            status = {'type': 'erro', 'mensagem': f'Houve um problema ao cadastrar o produto {dados["nome"]}!'}
+            return render_template('cadastrar.html', status=status)
     else:
         return render_template('cadastrar.html')
+
+@app.route("/editar_produto/<int:id>", methods=['GET', 'POST'])
+def editar_produto(id):
+    return 'teste'
+
 
 if __name__ == '__main__':
     with app.app_context():
