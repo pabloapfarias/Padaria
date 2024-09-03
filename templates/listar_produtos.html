@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block main %}
+<div class="container">
+    <div class="d-flex justify-content-center p-2">
+        <h1>Listar Produtos</h1>
+
+
+    </div>
+    <hr>
+    <div class="row">
+        {% for produto in produtos %}
+
+        <div class="col-md-3">
+            <div class="card" style="width: 18rem;">
+                <img src="{{url_for('static', filename='imagens/'+produto.imagem)}}" class="card-img-top"
+                     alt="{{ produto.nome }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ produto.nome }}</h5>
+                    <p class="card-text">{{ produto.descricao }}</p>
+                    <a href="#" class="btn btn-primary">Editar</a>
+                </div>
+            </div>
+            <p></p>
+        </div>
+
+        {% endfor %}
+    </div>
+
+
+</div>
+{% endblock %}
