@@ -2,6 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask import render_template
 from flask import request
+import os
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///padaria.db'
@@ -43,10 +44,18 @@ def listar_produtos():
     return render_template('listar_produtos.html', produtos=produtos)
 
 
-@app.route('/cadastrar_produtos')
+@app.route('/cadastrar_produtos', methods=['GET', 'POST'])
 def cadastrar_produtos():  # put application's code here
-    return render_template('cadastrar.html')
-
+    if request.method == 'POST':
+        dados = request.form
+        imagem = request.files['imagem']
+        produto = Product(dados['nome'], dados['descricao'], dados['ingredientes'], dados['origem'], imagem.filename)
+        imagem.save(os.path.join('static/imagens', imagem.filename))
+        db.session.add(produto)
+        db.session.commit()
+        return render_template('cadastrar.html')
+    else:
+        return render_template('cadastrar.html')
 
 if __name__ == '__main__':
     with app.app_context():
