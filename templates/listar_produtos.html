@@ -1,4 +1,12 @@
 {% extends 'base.html' %}
+
+{% block pesquisa%}
+<form class="d-flex" role="search" action="{{url_for('listar_produtos')}}" method="post">
+    <input class="form-control me-2" type="search" aria-label="Search" name="pesquisa">
+    <button class="btn btn-outline-success" type="submit">Pesquisar</button>
+</form>
+{% endblock %}
+
 {% block main %}
 <div class="container">
     <div class="d-flex justify-content-center p-2">
@@ -9,20 +17,23 @@
     <hr>
     <div class="row">
         {% for produto in produtos %}
-
         <div class="col-md-3">
             <div class="card" style="width: 18rem;">
+                <div class="card-header">
+                    <h5>{{ produto.nome }}</h5>
+                </div>
                 <img src="{{url_for('static', filename='imagens/'+produto.imagem)}}" class="card-img-top"
                      alt="{{ produto.nome }}">
                 <div class="card-body">
-                    <h5 class="card-title">{{ produto.nome }}</h5>
+
+                    <h6 class="card-subtitle mb-2 text-body-secondary"><b>Origem: </b>{{ produto.origem }}</h6>
                     <p class="card-text">{{ produto.descricao }}</p>
+                    <h6 class="card-subtitle mb-2 text-body-secondary"><b>Ingredientes: <br></b>{{ produto.ingredientes
+                        }}</h6>
                     <a href="#" class="btn btn-primary">Editar</a>
                 </div>
             </div>
-            <p></p>
         </div>
-
         {% endfor %}
     </div>
 
